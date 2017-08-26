@@ -16,17 +16,17 @@ public class InputService : MonoBehaviour
 
     public static bool JumpHold()
     {
-        return Input.GetKey(KeyCode.Space);
+        return Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button1);
     }
 
     public static bool JumpReleased()
     {
-        return Input.GetKeyUp(KeyCode.Space);
+        return Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.Joystick1Button1);
     }
 
     public static bool JumpPressed()
     {
-        return Input.GetKeyDown(KeyCode.Space);
+        return Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Joystick1Button1);
     }
 
     private static void ClampToDeadZone(ref float value)

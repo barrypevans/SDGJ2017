@@ -21,15 +21,18 @@ public class Sensor : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collider)
     {
         SendMessageUpwards("OnSensorEnter_" + _sensorName, collider, SendMessageOptions.DontRequireReceiver);
+        collider.SendMessage("BoadcastSensorEnter_" + _sensorName, collider, SendMessageOptions.DontRequireReceiver);
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
         SendMessageUpwards("OnSensorExit_" + _sensorName, collider, SendMessageOptions.DontRequireReceiver);
+        collider.SendMessage("BoadcastSensorExit_" + _sensorName, collider, SendMessageOptions.DontRequireReceiver);
     }
 
     private void OnTriggerStay2D(Collider2D collider)
     {
         SendMessageUpwards("OnSensorStay_" + _sensorName, collider, SendMessageOptions.DontRequireReceiver);
+        collider.SendMessage("BoadcastSensorStay_" + _sensorName, collider, SendMessageOptions.DontRequireReceiver);
     }
 }
