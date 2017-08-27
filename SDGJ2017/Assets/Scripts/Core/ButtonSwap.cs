@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonSwap : MonoBehaviour {
+public class ButtonSwap : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
 
     Sprite init, hover;
     public string hoverSpriteName;
@@ -11,15 +14,15 @@ public class ButtonSwap : MonoBehaviour {
         init = GetComponent<Image>().sprite;
         hover = Resources.Load<Sprite>("buttonsprites/" + hoverSpriteName);
 	}
+    
 
-    void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         GetComponent<Image>().sprite = hover;
     }
-    void OnMouseExit()
+
+    public void OnPointerExit(PointerEventData eventData)
     {
         GetComponent<Image>().sprite = init;
     }
-    
-    
 }
