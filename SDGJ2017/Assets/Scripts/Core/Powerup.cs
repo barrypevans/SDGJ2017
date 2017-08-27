@@ -42,7 +42,7 @@ public class Powerup : Interactable
 
     protected override void Interact()
     {
-        
+        if (_collected) return;
         if (_powerupType == PowerupType.Dash)
             GameManager.Instance.HasDash = true;
         else if (_powerupType == PowerupType.Gloves)

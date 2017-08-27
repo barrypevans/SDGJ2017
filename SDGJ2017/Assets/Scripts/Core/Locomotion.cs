@@ -25,6 +25,7 @@ public class Locomotion : MonoBehaviour
     private Collider2D _collider;
     private SpriteRenderer _renderer;
 
+    private bool _canDash;
     private bool _isGrounded;
     private bool _isFalling;
     private bool _isRising;
@@ -137,12 +138,13 @@ public class Locomotion : MonoBehaviour
             _rigidbody.gravityScale = RisingGravity;
 
         //Do Dash
-        if (InputService.DashPressed() && GameManager.Instance.HasDash) { StartCoroutine(Co_DoDash()); }
+        if (InputService.DashPressed() && GameManager.Instance.HasDash && _canDash) { StartCoroutine(Co_DoDash()); }
 
     }
 
     private IEnumerator Co_DoDash()
     {
+        _canDash = false;
         _isDashing = true;
         var grav = _rigidbody.gravityScale;
         SuspendMovment();
@@ -163,6 +165,7 @@ public class Locomotion : MonoBehaviour
     private void OnSensorStay_Grounded()
     {
         _isGrounded = true;
+        _canDash = true;
     }
 
     private void OnSensorExit_Grounded()

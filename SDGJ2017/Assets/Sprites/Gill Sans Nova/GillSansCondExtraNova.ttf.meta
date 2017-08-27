@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: 7460dbcab6a35fb4b8cdaf666ebada78
+timeCreated: 1503865608
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Gill Sans Nova
+  fontNames:
+  - Gill Sans Nova
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6bf90e264fe240142a18baa300accd0a, type: 3}
+  - {fileID: 12800000, guid: 051d4ff713195354e9c76a0a6a599953, type: 3}
+  - {fileID: 12800000, guid: 39471a9950fa526479b66363a438dc41, type: 3}
+  - {fileID: 12800000, guid: 18f75bbaa211543448d5792acb69ddf2, type: 3}
+  - {fileID: 12800000, guid: 50ba1dce8fd0ce847913def4f13d956d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

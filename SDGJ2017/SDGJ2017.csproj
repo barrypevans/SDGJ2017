@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.6.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -81,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\LevelLoadVolume.cs" />
+    <Compile Include="Assets\Scripts\Core\ButtonSwap.cs" />
     <Compile Include="Assets\Scripts\Core\CameraController.cs" />
     <Compile Include="Assets\Scripts\Core\CameraRestrictionVolume.cs" />
     <Compile Include="Assets\Scripts\Core\Checkpoint.cs" />
@@ -88,6 +87,7 @@
     <Compile Include="Assets\Scripts\Core\FallingSpike.cs" />
     <Compile Include="Assets\Scripts\Core\Interactable.cs" />
     <Compile Include="Assets\Scripts\Core\Locomotion.cs" />
+    <Compile Include="Assets\Scripts\Core\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Core\Parallax.cs" />
     <Compile Include="Assets\Scripts\Core\PlayerUtility.cs" />
     <Compile Include="Assets\Scripts\Core\Powerup.cs" />

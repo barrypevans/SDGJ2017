@@ -1,13 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
 
     private GameObject _player;
     private GameObject _camera;
+    public Text _timerImage_Min_Sec;
+    public Text _timerImage_Mili;
+
     private Vector3 _respawnPosition;
     private bool _isRespawning = false;
     public bool _isSecondRun;
@@ -29,11 +34,17 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         _player = GameObject.Find("player");
         _camera = GameObject.Find("main-camera");
+        StartTimer();
+
+        Debug.Log("seconds: " + PlayerPrefs.GetInt("seconds"));
+        Debug.Log("minutes: " + PlayerPrefs.GetInt("minutes"));
+        Debug.Log("miliseconds: " + PlayerPrefs.GetInt("miliseconds"));
     }
 
     private void OnLevelWasLoaded(int level)
     {
-        if (level == 0 && _isSecondRun) SetupSecondRun();
+        if (level == 1 && _isSecondRun) SetupSecondRun();
+        if (level == 0) GameObject.Destroy(gameObject);
         _player = GameObject.Find("player");
         _camera = GameObject.Find("main-camera");
 
@@ -78,6 +89,7 @@ public class GameManager : MonoBehaviour {
 
     public void LoadLevel(string level)
     {
+
         StartCoroutine(Co_loadLevel(level));
       
     }
@@ -98,21 +110,29 @@ public class GameManager : MonoBehaviour {
     {
         if (!_isSecondRun)
         {
+            FirstRunHasDash = HasDash;
+            FirstRunHasGloves = HasGloves;
             _isSecondRun = true;
-            //TODO: change this to be the right order
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
         else
         {
-            Debug.Log("Load the scoreboard here");
+            PlayerPrefs.SetInt("seconds", (int)seconds);
+            PlayerPrefs.SetInt("minutes", (int)minutes);
+            PlayerPrefs.SetInt("miliseconds", (int)miliseconds);
+            SceneManager.LoadScene(0);
         }
     }
-
-    public bool HasDash = false;    
+    [HideInInspector]
+    public bool HasDash = false;
+    [HideInInspector]
     public bool HasGloves = false;
-
+    [HideInInspector]
     public bool FirstRunHasDash = false;
+    [HideInInspector]
     public bool FirstRunHasGloves = false;
+    [HideInInspector]
+    public bool DidDropSpikes = false;
 
     public void StartTimer()
     {
@@ -123,12 +143,37 @@ public class GameManager : MonoBehaviour {
     {
         _timerRunning = false;
     }
+    float minutes = 0;
+    float seconds = 0;
+    float miliseconds = 0;
 
     private void Update()
     {
-        if(_timerRunning)
-            _timer += Time.deltaTime;
+
+        if (!_timerRunning) return;
+
+        if (miliseconds >= 60)
+        {
+            if (seconds >= 60)
+            {
+                minutes++;
+                seconds = 0;
+            }
+            else if (seconds <= 59)
+            {
+                seconds++;
+            }
+
+            miliseconds = 0;
+        }
+
+        miliseconds += Time.deltaTime * 100;
+        if(null!=_timerImage_Min_Sec)
+            _timerImage_Min_Sec.text=(string.Format("{0}:{1}", minutes.ToString("00"), seconds.ToString("00")));
+        if (null != _timerImage_Mili)
+            _timerImage_Mili.text =  ((int)miliseconds).ToString("00");
     }
 
 
 }
+
