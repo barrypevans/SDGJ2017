@@ -29,6 +29,12 @@ public class InputService : MonoBehaviour
         return Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Joystick1Button1);
     }
 
+    public static bool DashPressed()
+    {
+        return Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Joystick1Button5);
+    }
+
+
     private static void ClampToDeadZone(ref float value)
     {
         value = Mathf.Abs(value) > DeadZone ? value : 0;

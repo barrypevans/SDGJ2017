@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour
 
     private bool _doFollow = true;
 
+    private bool _suspendMovment;
+
     private void Start()
     {
         _player = GameObject.Find("player");
@@ -18,6 +20,12 @@ public class CameraController : MonoBehaviour
     }
 
     private void FixedUpdate()
+    {
+        if(!_suspendMovment)
+            UpdatePosition();
+    }
+
+    private void UpdatePosition()
     {
         var screenSpacePos = _camera.WorldToScreenPoint(_player.transform.position);
         var normalScreenSpacePos = new Vector2(screenSpacePos.x / (float)Screen.width, screenSpacePos.y / (float)Screen.height);
@@ -31,7 +39,7 @@ public class CameraController : MonoBehaviour
             _doFollow = true;
         }
 
-        if (Mathf.Abs(xVel) < .01f)
+        else if (Mathf.Abs(xVel) < .01f)
         {
             _doFollow = false;
         }
@@ -43,11 +51,21 @@ public class CameraController : MonoBehaviour
 
         }
 
-        Vector3 lerpPos = Vector2.Lerp(transform.position, new Vector2(targetX, _player.transform.position.y+5), .07f);
+        Vector3 lerpPos = Vector2.Lerp(transform.position, new Vector2(targetX, _player.transform.position.y + 5), .07f);
         lerpPos.x = targetX;
         lerpPos.z = -10;
 
         transform.position = lerpPos;
     }
+
+    public void SuspendMovment()
+    {
+        _suspendMovment = true;
+    }
+    public void ResumeMovment()
+    {
+        _suspendMovment = false;
+    }
+
 
 }

@@ -15,7 +15,7 @@ public class Locomotion : MonoBehaviour
     [SerializeField]
     private float JumpStrength = 25;
     [SerializeField]
-    private float RunAcceleration = .7f;
+    private float RunAcceleration = .9f;
     [SerializeField]
     private float RunSpeedCap = 12;
     private const float FrictionForce = -2f;
@@ -23,13 +23,20 @@ public class Locomotion : MonoBehaviour
     private Animator _animator;
     private Rigidbody2D _rigidbody;
     private Collider2D _collider;
+    private SpriteRenderer _renderer;
+
     private bool _isGrounded;
     private bool _isFalling;
     private bool _isRising;
     private bool _isPivoting;
+    private bool _isRunning;
+    private bool _isDashing;
     private bool _canJump = true;
     private bool _canWallJump = false;
     private int _wallDirection;
+    private float _facing;
+    private bool _suspendMovment;
+
 
 
     private void Start()
@@ -37,31 +44,49 @@ public class Locomotion : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        UpdatePhysicsInputs();
-        UpdateAnimatorState();
+        if (!_suspendMovment)
+        {
+            UpdatePhysicsInputs();
+            UpdateAnimatorState();
+        }
     }
 
     private void FixedUpdate()
     {
-        UpdatePhysics();
+        if (!_suspendMovment)
+            UpdatePhysics();
     }
 
     private void UpdateAnimatorState()
     {
+        var horInput = InputService.GetHorizontal();
+        if (Mathf.Abs(horInput) > .01f)
+        {
+            _facing = Mathf.Sign(horInput);
+            _renderer.flipX = horInput < 0;
+        }
+
         _isFalling = _rigidbody.velocity.y < .01f && !_isGrounded;
         _isRising = _rigidbody.velocity.y > .01f;
         _isPivoting = Mathf.Sign(_rigidbody.velocity.x) != Mathf.Sign(InputService.GetHorizontal());
         _isPivoting = _isGrounded && _isPivoting;
-
+        _isRunning = Mathf.Abs(_rigidbody.velocity.x) > .01f;
         _animator.SetBool("is-grounded", _isGrounded);
         _animator.SetBool("is-falling", _isFalling);
         _animator.SetBool("is-rising", _isRising);
         _animator.SetBool("is-pivoting", _isPivoting);
         _animator.SetBool("can-wall-jump", _canWallJump);
+        _animator.SetBool("is-running", _isRunning);
+        _animator.SetBool("is-dashing", _isDashing);
+        if (_isRunning)
+            _animator.speed = Mathf.Max(.3f,Mathf.Abs(_rigidbody.velocity.x) / RunSpeedCap);
+        else
+            _animator.speed = 1;
     }
 
     private void UpdatePhysics()
@@ -110,6 +135,28 @@ public class Locomotion : MonoBehaviour
             _rigidbody.gravityScale = FallingGravity;
         else if (InputService.JumpHold())
             _rigidbody.gravityScale = RisingGravity;
+
+        //Do Dash
+        if (InputService.DashPressed()) { StartCoroutine(Co_DoDash()); }
+
+    }
+
+    private IEnumerator Co_DoDash()
+    {
+        _isDashing = true;
+        var grav = _rigidbody.gravityScale;
+        SuspendMovment();
+        _rigidbody.gravityScale = 0;
+        _rigidbody.velocity = new Vector2(_facing * 55, 0);
+        yield return new WaitForSeconds(.1f);
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.simulated = false;
+        _isDashing = false;
+        yield return new WaitForSeconds(.1f);
+        _rigidbody.simulated = true;
+        _rigidbody.gravityScale = grav;
+        ResumeMovment();
+        
     }
 
     //update Grounded state
@@ -126,7 +173,7 @@ public class Locomotion : MonoBehaviour
     private void OnSensorStay_WallJump(Collider2D collider)
     {
         _canWallJump = true && !_isGrounded;
-        _wallDirection = (int)Mathf.Sign(  transform.position.x- collider.transform.position.x );
+        _wallDirection = (int)Mathf.Sign(transform.position.x - collider.transform.position.x);
     }
 
     private void OnSensorExit_WallJump()
@@ -134,4 +181,14 @@ public class Locomotion : MonoBehaviour
         _canWallJump = false;
         _wallDirection = 0;
     }
+
+    public void SuspendMovment()
+    {
+        _suspendMovment = true;
+    }
+    public void ResumeMovment()
+    {
+        _suspendMovment = false;
+    }
+
 }
