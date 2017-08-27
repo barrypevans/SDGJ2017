@@ -40,7 +40,10 @@ public class MusicAudControl : MonoBehaviour {
             trackTransition(currentTrack+1);
     }
 	
-
+    public void iterateTrack()
+    {
+        trackTransition(currentTrack + 1);
+    }
     Coroutine audioTrans;
     //slide between songs
     public void trackTransition(int i)
@@ -53,6 +56,8 @@ public class MusicAudControl : MonoBehaviour {
     //no shit
     IEnumerator transitionSong(int newTrack)
     {
+        if (newTrack > 3)
+            newTrack = 3;
         float t = 0;
         while (t < 4f)
         {

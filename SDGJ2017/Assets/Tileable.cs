@@ -15,7 +15,7 @@ public class Tileable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(TileOnY)
-        GetComponent<Renderer>().material.SetVector("_UVScale", transform.localScale);
+            GetComponent<Renderer>().material.SetVector("_UVScale", transform.localScale);
         else
             GetComponent<Renderer>().material.SetVector("_UVScale",new Vector2( transform.localScale.x,1));
         if (null!= BottomTile)

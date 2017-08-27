@@ -36,13 +36,11 @@ public class Elevator : MonoBehaviour {
             yield return null;
         }
     }
-
-    Transform previousParent;
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            previousParent = collision.transform.parent;
             collision.gameObject.transform.parent = transform;
         }
     }
@@ -50,6 +48,6 @@ public class Elevator : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.tag == "Player")
-            collision.gameObject.transform.parent = previousParent;
+            collision.gameObject.transform.parent = null;
     }
 }

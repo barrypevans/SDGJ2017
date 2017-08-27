@@ -47,6 +47,9 @@ public class Powerup : Interactable
             GameManager.Instance.HasDash = true;
         else if (_powerupType == PowerupType.Gloves)
             GameManager.Instance.HasGloves = true;
+        //starting jacob edit
+        else if (_powerupType == PowerupType.Shield)
+            GameManager.Instance.HasShield = true;
         _collected = true;
         GetComponent<SpriteRenderer>().sprite = desaturationedPowerup;
     }

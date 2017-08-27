@@ -20,7 +20,7 @@ public class SlimeAI : MonoBehaviour
         _direction = !_direction;
         var variation = _direction ? -1 : 1;
         _rigidbody.velocity = new Vector2(variation * 10, _rigidbody.velocity.y);
-        _floorRayOffset *= -1;
+        _floorRayOffset = variation;
     }
 
     private void Start()
@@ -34,7 +34,7 @@ public class SlimeAI : MonoBehaviour
     {
 
         var floorRay = Physics2D.Raycast(transform.position + new Vector3(_floorRayOffset,0,0), Vector2.down,1);
-     //   Debug.DrawRay(transform.position + new Vector3(_floorRayOffset, 0, 0), Vector2.down, Color.red, 2);
+        //Debug.DrawRay(transform.position + new Vector3(_floorRayOffset, 0, 0), Vector2.down, Color.red, 2);
         if (!floorRay)
         {
             Flip();

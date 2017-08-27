@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     private void OnEnable()
     {
         if (Instance != null)
-            GameObject.Destroy(this);
+            GameObject.Destroy(this.gameObject);
         else
             Instance = this;
     }
@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour {
         {
             FirstRunHasDash = HasDash;
             FirstRunHasGloves = HasGloves;
+            FirstRunHasShield = HasShield;
             _isSecondRun = true;
             SceneManager.LoadScene(1);
         }
@@ -129,9 +130,15 @@ public class GameManager : MonoBehaviour {
     [HideInInspector]
     public bool HasGloves = false;
     [HideInInspector]
+    public bool HasShield = false;
+    [HideInInspector]
+    public bool ShieldIntact = true;
+    [HideInInspector]
     public bool FirstRunHasDash = false;
     [HideInInspector]
     public bool FirstRunHasGloves = false;
+    [HideInInspector]
+    public bool FirstRunHasShield = false;
     [HideInInspector]
     public bool DidDropSpikes = false;
 
@@ -148,10 +155,10 @@ public class GameManager : MonoBehaviour {
     float seconds = 0;
     float miliseconds = 0;
 
-    private void Update()
+    private void FixedUpdate()
     {
 
-        if (!_timerRunning) return;
+       
 
         if (miliseconds >= 60)
         {
@@ -169,7 +176,9 @@ public class GameManager : MonoBehaviour {
         }
 
         miliseconds += Time.deltaTime * 100;
-        if(null!=_timerImage_Min_Sec)
+
+        if (!_timerRunning) return;
+        if (null!=_timerImage_Min_Sec)
             _timerImage_Min_Sec.text=(string.Format("{0}:{1}", minutes.ToString("00"), seconds.ToString("00")));
         if (null != _timerImage_Mili)
             _timerImage_Mili.text =  ((int)miliseconds).ToString("00");
