@@ -8,10 +8,11 @@ public class CameraController : MonoBehaviour
 
     private GameObject _player;
     private Camera _camera;
-
+    private Rect _restrictions;
     private bool _doFollow = true;
-
     private bool _suspendMovment;
+
+    public bool UseRestrictions = false;
 
     private void Start()
     {
@@ -53,9 +54,11 @@ public class CameraController : MonoBehaviour
 
         Vector3 lerpPos = Vector2.Lerp(transform.position, new Vector2(targetX, _player.transform.position.y + 5), .07f);
         lerpPos.x = targetX;
+        if(UseRestrictions)
+            lerpPos = new Vector3(Mathf.Clamp(lerpPos.x, _restrictions.xMin+_camera.orthographicSize*2, _restrictions.xMax-_camera.orthographicSize * 2), Mathf.Clamp(lerpPos.y, _restrictions.yMin, _restrictions.yMax),-10);
         lerpPos.z = -10;
-
         transform.position = lerpPos;
+        
     }
 
     public void SuspendMovment()
@@ -67,5 +70,9 @@ public class CameraController : MonoBehaviour
         _suspendMovment = false;
     }
 
+    public void SetRestrictions(Rect restriction)
+    {
+        _restrictions = restriction;
+    }
 
 }

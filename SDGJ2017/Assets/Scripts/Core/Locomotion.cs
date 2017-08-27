@@ -80,11 +80,12 @@ public class Locomotion : MonoBehaviour
         _animator.SetBool("is-falling", _isFalling);
         _animator.SetBool("is-rising", _isRising);
         _animator.SetBool("is-pivoting", _isPivoting);
-        _animator.SetBool("can-wall-jump", _canWallJump);
+
+        _animator.SetBool("can-wall-jump", _canWallJump && GameManager.Instance.HasGloves);
         _animator.SetBool("is-running", _isRunning);
         _animator.SetBool("is-dashing", _isDashing);
         if (_isRunning)
-            _animator.speed = Mathf.Max(.3f,Mathf.Abs(_rigidbody.velocity.x) / RunSpeedCap);
+            _animator.speed = Mathf.Max(.3f, Mathf.Abs(_rigidbody.velocity.x) / RunSpeedCap);
         else
             _animator.speed = 1;
     }
@@ -96,7 +97,7 @@ public class Locomotion : MonoBehaviour
         var xVel = _rigidbody.velocity.x + horizontalInput * RunAcceleration;
 
         if (_isPivoting)
-            xVel += Mathf.Sign(_rigidbody.velocity.x) * FrictionForce;
+            xVel += Mathf.Sign(_rigidbody.velocity.x) * FrictionForce / 2;
 
         //add friction
         if ((horizontalInput == 0) && _isGrounded)
@@ -123,10 +124,9 @@ public class Locomotion : MonoBehaviour
                 if (_canJump && _isGrounded)
                     _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, JumpStrength);
             }
-            else
+            else if(GameManager.Instance.HasGloves)
             {
                 _rigidbody.velocity = new Vector2(20000 * _wallDirection, JumpStrength);
-                Debug.Log("do wall jump");
             }
         }
 
@@ -137,7 +137,7 @@ public class Locomotion : MonoBehaviour
             _rigidbody.gravityScale = RisingGravity;
 
         //Do Dash
-        if (InputService.DashPressed()) { StartCoroutine(Co_DoDash()); }
+        if (InputService.DashPressed()&&GameManager.Instance.HasDash) { StartCoroutine(Co_DoDash()); }
 
     }
 
@@ -152,11 +152,11 @@ public class Locomotion : MonoBehaviour
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.simulated = false;
         _isDashing = false;
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.05f);
         _rigidbody.simulated = true;
         _rigidbody.gravityScale = grav;
         ResumeMovment();
-        
+
     }
 
     //update Grounded state

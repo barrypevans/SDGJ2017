@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class parallax : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private Transform _referanceTransform;
+    private float _paralllaxRatio;
+
+    
+
+    private void Update()
+    {
+
+    }
+
+    private void FixedUpdate()
+    {
+
+    }
+
 }
