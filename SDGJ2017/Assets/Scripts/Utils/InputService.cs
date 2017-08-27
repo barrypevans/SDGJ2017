@@ -35,6 +35,12 @@ public class InputService : MonoBehaviour
     }
 
 
+    public static bool InteractPressed()
+    {
+        return Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Joystick1Button0);
+    }
+
+
     private static void ClampToDeadZone(ref float value)
     {
         value = Mathf.Abs(value) > DeadZone ? value : 0;

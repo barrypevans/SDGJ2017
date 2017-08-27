@@ -9,17 +9,40 @@ public class GameManager : MonoBehaviour {
     private GameObject _player;
     private GameObject _camera;
     private Vector3 _respawnPosition;
-
     private bool _isRespawning = false;
+    public bool _isSecondRun;
 
+    public double _timer;
+    public bool _timerRunning = false;
+
+    private void OnEnable()
+    {
+        if (Instance != null)
+            GameObject.Destroy(this);
+        else
+            Instance = this;
+    }
 
     private void Start()
     {
-        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
         _player = GameObject.Find("player");
         _camera = GameObject.Find("main-camera");
     }
 
+    private void OnLevelWasLoaded(int level)
+    {
+        if (level == 0 && _isSecondRun) SetupSecondRun();
+        _player = GameObject.Find("player");
+        _camera = GameObject.Find("main-camera");
+
+    }
+    public void SetupSecondRun()
+    {
+        HasDash = false;
+        HasGloves = false;
+    }
     public void SetRespawnPosition(Vector3 pos){_respawnPosition = pos;}
 
     public void DoRespawn()
@@ -71,8 +94,41 @@ public class GameManager : MonoBehaviour {
     }
 
 
-    public bool HasDash = true;// { get; private set; }
-    public bool HasGloves  { get; private set; }
+    public void EndGame()
+    {
+        if (!_isSecondRun)
+        {
+            _isSecondRun = true;
+            //TODO: change this to be the right order
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            Debug.Log("Load the scoreboard here");
+        }
+    }
+
+    public bool HasDash = false;    
+    public bool HasGloves = false;
+
+    public bool FirstRunHasDash = false;
+    public bool FirstRunHasGloves = false;
+
+    public void StartTimer()
+    {
+        _timerRunning = true;
+    }
+
+    public void PauseTimer()
+    {
+        _timerRunning = false;
+    }
+
+    private void Update()
+    {
+        if(_timerRunning)
+            _timer += Time.deltaTime;
+    }
 
 
 }

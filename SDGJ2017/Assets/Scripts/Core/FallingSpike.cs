@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallingSpike : MonoBehaviour {
+public class FallingSpike : Interactable {
 
     bool canTrip = false;
     public GameObject[] fallingObjects;
@@ -36,5 +37,10 @@ public class FallingSpike : MonoBehaviour {
         {
             canTrip = false;
         }
+    }
+
+    protected override void Interact()
+    {
+       // throw new NotImplementedException();
     }
 }

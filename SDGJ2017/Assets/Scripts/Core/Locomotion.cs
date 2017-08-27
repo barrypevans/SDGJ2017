@@ -137,7 +137,7 @@ public class Locomotion : MonoBehaviour
             _rigidbody.gravityScale = RisingGravity;
 
         //Do Dash
-        if (InputService.DashPressed()&&GameManager.Instance.HasDash) { StartCoroutine(Co_DoDash()); }
+        if (InputService.DashPressed() && GameManager.Instance.HasDash) { StartCoroutine(Co_DoDash()); }
 
     }
 

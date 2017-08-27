@@ -86,10 +86,13 @@
     <Compile Include="Assets\Scripts\Core\Checkpoint.cs" />
     <Compile Include="Assets\Scripts\Core\Elevator.cs" />
     <Compile Include="Assets\Scripts\Core\FallingSpike.cs" />
+    <Compile Include="Assets\Scripts\Core\Interactable.cs" />
     <Compile Include="Assets\Scripts\Core\Locomotion.cs" />
     <Compile Include="Assets\Scripts\Core\Parallax.cs" />
     <Compile Include="Assets\Scripts\Core\PlayerUtility.cs" />
+    <Compile Include="Assets\Scripts\Core\Powerup.cs" />
     <Compile Include="Assets\Scripts\Core\SlimeAI.cs" />
+    <Compile Include="Assets\Scripts\Ending.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Utils\InputService.cs" />
     <Compile Include="Assets\Scripts\Utils\MusicAudControl.cs" />
