@@ -78,13 +78,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\LevelLoadVolume.cs" />
+    <Compile Include="Assets\Scripts\Core\ButtonSwap.cs" />
     <Compile Include="Assets\Scripts\Core\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Core\CameraRestrictionVolume.cs" />
     <Compile Include="Assets\Scripts\Core\Checkpoint.cs" />
+    <Compile Include="Assets\Scripts\Core\Elevator.cs" />
+    <Compile Include="Assets\Scripts\Core\FallingSpike.cs" />
     <Compile Include="Assets\Scripts\Core\Locomotion.cs" />
+    <Compile Include="Assets\Scripts\Core\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Core\Parallax.cs" />
     <Compile Include="Assets\Scripts\Core\PlayerUtility.cs" />
+    <Compile Include="Assets\Scripts\Core\SlimeAI.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Utils\InputService.cs" />
+    <Compile Include="Assets\Scripts\Utils\MusicAudControl.cs" />
     <Compile Include="Assets\Scripts\Utils\Sensor.cs" />
     <Compile Include="Assets\Tileable.cs" />
   </ItemGroup>
