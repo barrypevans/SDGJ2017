@@ -14,7 +14,17 @@ public class MenuManager : MonoBehaviour
 
     List<UserData> scoreData = null;
 
-    public Text Name;
+    public Text userNameInput;
+    public GameObject UserInputPanel;
+
+    private void Awake()
+    {
+        if (PlayerPrefs.GetInt("score-flag") == 1)
+        {
+            UserInputPanel.SetActive(true);
+            PlayerPrefs.SetInt("score-flag", 0);
+        }
+    }
 
     void Start()
     {
@@ -32,7 +42,7 @@ public class MenuManager : MonoBehaviour
         if (null == scoreData)
             scoreData = new List<UserData>();
 
-      
+
     }
 
     public void setScore(int position, string name, string score)
@@ -60,7 +70,7 @@ public class MenuManager : MonoBehaviour
         }
         catch (Exception e)
         {
-
+            Debug.Log(e);
         }
         return leaderboard;
     }
@@ -71,7 +81,7 @@ public class MenuManager : MonoBehaviour
 
         if (null != scoreData)
             for (int i = 0; i < Mathf.Min(10, scoreData.Count); i++)
-                setScore(i, scoreData[i].name, scoreData[i].seconds.ToString("00") + ":" + scoreData[i].seconds.ToString("00") + ":" + scoreData[i].seconds.ToString("00"));
+                setScore(i, scoreData[i].name, scoreData[i].minutes.ToString("00") + ":" + scoreData[i].seconds.ToString("00") + ":" + scoreData[i].miliseconds.ToString("00"));
     }
 
     public void SubmitScore()
@@ -84,7 +94,7 @@ public class MenuManager : MonoBehaviour
         var miliseconds = PlayerPrefs.GetInt("miliseconds");
 
         UserData ud = new UserData(); ;
-        ud.name = Name.text;
+        ud.name = userNameInput.text;
         ud.seconds = seconds;
         ud.minutes = minutes;
         ud.miliseconds = miliseconds;
@@ -95,11 +105,19 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
+            var inserted = false;
             for (int i = 0; i < Mathf.Min(10, scoreData.Count); i++)
-                if (CompareScores(ud, scoreData[i]))
+                if (!CompareScores(ud, scoreData[i]))
+                {
+                    inserted = true;
                     scoreData.Insert(i, ud);
+                    break;
+                }
 
-            scoreData.RemoveRange(10, scoreData.Count);
+            if (!inserted)
+                scoreData.Add(ud);
+            // if(scoreData.Count>10)
+            //scoreData.RemoveRange(10, scoreData.Count-1);
         }
         SaveScores();
         updateScores();
@@ -111,16 +129,17 @@ public class MenuManager : MonoBehaviour
         if (null == scoreData) return;
         try
         {
-
+            Debug.Log(scoreData.Count);
             XmlSerializer serializer = new
             XmlSerializer(typeof(List<UserData>));
             using (StreamWriter writer = new StreamWriter(Application.persistentDataPath + "/LeaderBoard.xml"))
             {
                 serializer.Serialize(writer, scoreData);
             }
-             }
-             catch(Exception e) { Debug.Log(e); }
         }
+        catch (Exception e) { Debug.Log(e); }
+
+    }
 
     private bool CompareScores(UserData ud1, UserData ud2)
     {

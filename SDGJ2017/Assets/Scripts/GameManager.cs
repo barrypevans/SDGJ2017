@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour {
             PlayerPrefs.SetInt("seconds", (int)seconds);
             PlayerPrefs.SetInt("minutes", (int)minutes);
             PlayerPrefs.SetInt("miliseconds", (int)miliseconds);
-            PlayerPrefs.SetInt("scoreflag", 1);
+            PlayerPrefs.SetInt("score-flag", 1);
             SceneManager.LoadScene(0);
         }
     }
