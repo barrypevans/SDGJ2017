@@ -8,7 +8,7 @@ public class FallingSpike : Interactable
 
     bool canTrip = false;
     public GameObject[] fallingObjects;
-
+    
     private void Start()
     {
         if (GameManager.Instance._isSecondRun && GameManager.Instance.DidDropSpikes)
@@ -45,6 +45,7 @@ public class FallingSpike : Interactable
                 g.GetComponent<Rigidbody2D>().gravityScale = 20f;
             }
             GameManager.Instance.DidDropSpikes = true;
+            GetComponent<SpriteRenderer>().flipX = true;
         }
     }
 }

@@ -56,18 +56,21 @@ public class MusicAudControl : MonoBehaviour {
     //no shit
     IEnumerator transitionSong(int newTrack)
     {
-        if (newTrack > 3)
-            newTrack = 3;
-        float t = 0;
-        while (t < 4f)
+        if (newTrack != currentTrack)
         {
-            musicKeeper[currentTrack].volume = Mathf.Lerp(1,0,t/4f);
-            musicKeeper[newTrack].volume = Mathf.Lerp(0,1,t/4f);
-            t += Time.deltaTime;
-            yield return null;
-        }
+            if (newTrack > 3)
+                newTrack = 3;
+            float t = 0;
+            while (t < 4f)
+            {
+                musicKeeper[currentTrack].volume = Mathf.Lerp(1, 0, t / 4f);
+                musicKeeper[newTrack].volume = Mathf.Lerp(0, 1, t / 4f);
+                t += Time.deltaTime;
+                yield return null;
+            }
 
-        currentTrack = newTrack;
+            currentTrack = newTrack;
+        }
 
         yield return null;
     }
@@ -93,7 +96,7 @@ public class MusicAudControl : MonoBehaviour {
     //Self Disposing
     IEnumerator clipLife(GameObject g, string name, float volume)
     {
-        AudioSource a = new AudioSource();
+        AudioSource a = gameObject.AddComponent<AudioSource>();
         a.clip = Resources.Load<AudioClip>("Audio/" + name);
         a.volume = volume;
         if (null != g)

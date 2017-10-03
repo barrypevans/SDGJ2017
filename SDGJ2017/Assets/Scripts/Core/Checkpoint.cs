@@ -13,7 +13,7 @@ public class Checkpoint : MonoBehaviour {
             if (!hasTriggered)
             {
                 //this will throw errors until you put a ding wav (sent by me) in resources/audio
-                //GameManager.Instance.GetComponent<MusicAudControl>().playClip("Ding");
+                GameManager.Instance.GetComponent<MusicAudControl>().playClip("Ding");
                 GameManager.Instance.GetComponent<MusicAudControl>().iterateTrack();
                 hasTriggered = true;
             }

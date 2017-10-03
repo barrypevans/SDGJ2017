@@ -4,21 +4,32 @@ using UnityEngine;
 
 public class PlayerUtility : MonoBehaviour
 {
+
+    public GameObject ShieldObject;
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
+
         if (collision.gameObject.tag == "Leathal")
         {
             if (GameManager.Instance.HasShield && GameManager.Instance.ShieldIntact)
             {
                 GameManager.Instance.ShieldIntact = false;
-                //break shield here ^
+
+
             }
             else
             {
                 GameManager.Instance.DoRespawn();
-                GameManager.Instance.ShieldIntact = true;
+                
             }
         }
-   
+
+    }
+
+    public void Update()
+    {
+
+        ShieldObject.SetActive(GameManager.Instance.HasShield && GameManager.Instance.ShieldIntact);
     }
 }

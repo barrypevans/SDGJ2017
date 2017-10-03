@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour {
 
         
         _player.transform.position = _respawnPosition;
+        GameManager.Instance.ShieldIntact = true;
         _player.GetComponent<Locomotion>().ResumeMovment();
         _camera.GetComponent<CameraController>().ResumeMovment();
         _isRespawning = false;
